@@ -22,7 +22,7 @@ namespace AUT02_04_DiscosNET.Controllers
         // GET: Albums
         public async Task<IActionResult> Index()
         {
-            var chinookContext = _context.Albums.Include(a => a.Artist);
+            var chinookContext = _context.Albums.Include(a => a.Artist).OrderByDescending(a => a.Title);
             return View(await chinookContext.ToListAsync());
         }
 
