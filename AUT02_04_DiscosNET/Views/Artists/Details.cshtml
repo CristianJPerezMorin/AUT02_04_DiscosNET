@@ -19,7 +19,10 @@
     </dl>
     <h3>Listado de Albums</h3>
     <ul>
-        
+        @foreach(var item in Model.Albums)
+        {
+            <li>@item.Title</li>
+        }
     </ul>
 </div>
 <div>
