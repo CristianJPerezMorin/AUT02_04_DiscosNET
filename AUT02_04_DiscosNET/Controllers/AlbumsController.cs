@@ -10,9 +10,12 @@ using AUT02_04_DiscosNET.Models;
 
 namespace AUT02_04_DiscosNET.Controllers
 {
+    
     public class AlbumsController : Controller
     {
         private readonly ChinookContext _context;
+        public static int page = 0;
+        public const int nElement = 15;
 
         public AlbumsController(ChinookContext context)
         {
@@ -22,10 +25,31 @@ namespace AUT02_04_DiscosNET.Controllers
         // GET: Albums
         public async Task<IActionResult> Index()
         {
+            page = 0;
             var chinookContext = _context.Albums.Include(a => a.Artist).OrderByDescending(a => a.Title);
+            ViewData["Page"] = page;
+            ViewData["nElement"] = nElement;
             return View(await chinookContext.ToListAsync());
         }
-
+        [HttpPost]
+        public async Task<IActionResult> Index(string move)
+        {
+            if(move == "Atras")
+            {
+                if(page != 0)
+                {
+                    page--;
+                }
+            }
+            else
+            {
+                page++;
+            }
+            var chinookContext = _context.Albums.Include(a => a.Artist).OrderByDescending(a => a.Title);
+            ViewData["Page"] = page;
+            ViewData["nElement"] = nElement;
+            return View(await chinookContext.ToListAsync());
+        }
         // GET: Albums/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -65,7 +89,7 @@ namespace AUT02_04_DiscosNET.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistId", album.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "Name", "Name", album.ArtistId);
             return View(album);
         }
 
@@ -82,7 +106,7 @@ namespace AUT02_04_DiscosNET.Controllers
             {
                 return NotFound();
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistId", album.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "Name", "Name", album.ArtistId);
             return View(album);
         }
 
@@ -118,7 +142,7 @@ namespace AUT02_04_DiscosNET.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistId", album.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "Name", "Name", album.ArtistId);
             return View(album);
         }
 

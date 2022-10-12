@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,12 @@ namespace AUT02_04_DiscosNET.Models
         [Key]
         public int AlbumId { get; set; }
         [Required]
+        [DisplayName("Titulo")]
         [StringLength(160)]
         public string Title { get; set; }
+        
         public int ArtistId { get; set; }
-
+        [DisplayName("Artistas")]
         [ForeignKey("ArtistId")]
         [InverseProperty("Albums")]
         public virtual Artist Artist { get; set; }

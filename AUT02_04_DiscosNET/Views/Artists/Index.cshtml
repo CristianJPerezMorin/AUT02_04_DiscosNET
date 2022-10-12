@@ -7,7 +7,7 @@
 <h1>Listado de Artistas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear Artista</a>
 </p>
 <table class="table">
     <thead>
@@ -19,17 +19,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ArtistId">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.ArtistId">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.ArtistId">Eliminar</a>
-            </td>
-        </tr>
-}
+        @for (int cont = (ViewBag.Page * ViewBag.nElement); cont < ((ViewBag.nElement * ViewBag.Page) + ViewBag.nElement); cont++)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.ElementAt(cont).Name)
+                </td>
+                <td>
+                    <a href="Artists/Edit/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Editar</a>
+                    <a href="Artists/Details/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Detalles</a>
+                    <a href="Artists/Delete/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<form method="post">
+    <button name="move" id="move" class="btn-outline-dark mover" value="Atras" asp-controller="Albums" asp-action="Index">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+    </button>
+    <button name="move" id="move" class="btn-outline-dark mover" value="Adelante" asp-controller="Albums" asp-action="Index">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+        </svg>
+    </button>
+</form>

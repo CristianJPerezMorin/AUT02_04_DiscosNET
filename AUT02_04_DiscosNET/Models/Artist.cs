@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace AUT02_04_DiscosNET.Models
 
         [Key]
         public int ArtistId { get; set; }
+        [DisplayName("Nombre")]
         [StringLength(120)]
         public string Name { get; set; }
 
