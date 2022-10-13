@@ -15,7 +15,7 @@ namespace AUT02_04_DiscosNET.Controllers
         private readonly ChinookContext _context;
         public static int page = 0;
         public const int nElement = 15;
-
+        
         public ArtistsController(ChinookContext context)
         {
             _context = context;
@@ -44,7 +44,7 @@ namespace AUT02_04_DiscosNET.Controllers
             {
                 page++;
             }
-            var chinookContext = _context.Albums.Include(a => a.Artist).OrderByDescending(a => a.Title);
+            var chinookContext = _context.Artists.Include(a => a.Albums).OrderByDescending(a => a.Name);
             ViewData["Page"] = page;
             ViewData["nElement"] = nElement;
             return View(await chinookContext.ToListAsync());

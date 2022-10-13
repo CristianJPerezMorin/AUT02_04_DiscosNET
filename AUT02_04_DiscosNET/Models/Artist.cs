@@ -20,7 +20,8 @@ namespace AUT02_04_DiscosNET.Models
         [Key]
         public int ArtistId { get; set; }
         [DisplayName("Nombre")]
-        [StringLength(120)]
+        [StringLength(120, ErrorMessage = "El Campo no puede tener más de 120 caracteres.")]
+        [MinLength(2, ErrorMessage = "El Campo no puede tener menos de 2 caracteres.")]
         public string Name { get; set; }
 
         [InverseProperty("Artist")]

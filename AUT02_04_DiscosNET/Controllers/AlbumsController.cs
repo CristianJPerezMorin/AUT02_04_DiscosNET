@@ -73,7 +73,7 @@ namespace AUT02_04_DiscosNET.Controllers
         // GET: Albums/Create
         public IActionResult Create()
         {
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "Name", "Name");
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name");
             return View();
         }
 
@@ -90,7 +90,7 @@ namespace AUT02_04_DiscosNET.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "Name", "Name", album.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name", album.ArtistId);
             return View(album);
         }
 
@@ -107,7 +107,7 @@ namespace AUT02_04_DiscosNET.Controllers
             {
                 return NotFound();
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "Name", "Name", album.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name", album.ArtistId);
             return View(album);
         }
 
@@ -143,7 +143,7 @@ namespace AUT02_04_DiscosNET.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Artists, "Name", "Name", album.ArtistId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name", album.ArtistId);
             return View(album);
         }
 

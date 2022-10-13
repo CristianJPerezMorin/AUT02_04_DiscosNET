@@ -20,9 +20,10 @@ namespace AUT02_04_DiscosNET.Models
 
         [Key]
         public int AlbumId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El Campo es Obligatorio.")]
         [DisplayName("Titulo")]
-        [StringLength(160)]
+        [StringLength(160, ErrorMessage = "El Campo no puede tener más de 160 caracteres.")]
+        [MinLength(2, ErrorMessage = "El Campo no puede tener menos de 2 caracteres.")]
         public string Title { get; set; }
         
         public int ArtistId { get; set; }
