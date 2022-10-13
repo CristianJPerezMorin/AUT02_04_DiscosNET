@@ -60,6 +60,7 @@ namespace AUT02_04_DiscosNET.Controllers
 
             var album = await _context.Albums
                 .Include(a => a.Artist)
+                .Include(a => a.Tracks)
                 .FirstOrDefaultAsync(m => m.AlbumId == id);
             if (album == null)
             {

@@ -32,9 +32,9 @@
                     @Html.DisplayFor(model => model.ElementAt(cont).Artist.Name)
                 </td>
                 <td>
-                    <a href="Albums/Edit/@Html.DisplayFor(model => model.ElementAt(cont).AlbumId)">Editar</a>
-                    <a href="Albums/Details/@Html.DisplayFor(model => model.ElementAt(cont).AlbumId)">Detalles</a>
-                    <a href="Albums/Delete/@Html.DisplayFor(model => model.ElementAt(cont).AlbumId)">Eliminar</a>
+                    <a class="btn btn-outline-warning" href="Albums/Edit/@Html.DisplayFor(model => model.ElementAt(cont).AlbumId)">Editar</a>
+                    <a class="btn btn-outline-primary" href="Albums/Details/@Html.DisplayFor(model => model.ElementAt(cont).AlbumId)">Detalles</a>
+                    <a class="btn btn-outline-danger" href="Albums/Delete/@Html.DisplayFor(model => model.ElementAt(cont).AlbumId)">Eliminar</a>
                 </td>
             </tr>
         }

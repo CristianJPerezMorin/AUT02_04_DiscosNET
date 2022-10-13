@@ -1,0 +1,12 @@
+﻿@model AUT02_04_DiscosNET.Models.Artist;
+@{
+    ViewData["Title"] = "Muestra Albums";
+}
+<h1>Listado de Albums</h1>
+<h3>- @Html.DisplayFor(model => model.Name)</h3>
+<ol>
+    @foreach (var item in Model.Albums)
+    {
+        <li>@item.Title</li>
+    }
+</ol>

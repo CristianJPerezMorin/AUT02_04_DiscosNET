@@ -58,6 +58,7 @@ namespace AUT02_04_DiscosNET.Controllers
             }
 
             var artist = await _context.Artists
+                .Include(a => a.Albums)
                 .FirstOrDefaultAsync(m => m.ArtistId == id);
             if (artist == null)
             {
@@ -176,7 +177,23 @@ namespace AUT02_04_DiscosNET.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> ShowAlbums(int? id)
+        {
+            if (id == null || _context.Artists == null)
+            {
+                return NotFound();
+            }
 
+            var artist = await _context.Artists
+                .Include(a => a.Albums)
+                .FirstOrDefaultAsync(m => m.ArtistId == id);
+            if (artist == null)
+            {
+                return NotFound();
+            }
+
+            return View(artist);
+        }
         private bool ArtistExists(int id)
         {
           return _context.Artists.Any(e => e.ArtistId == id);
