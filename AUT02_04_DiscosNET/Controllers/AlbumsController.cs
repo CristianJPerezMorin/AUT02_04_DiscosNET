@@ -176,7 +176,10 @@ namespace AUT02_04_DiscosNET.Controllers
             {
                 return Problem("Entity set 'ChinookContext.Albums'  is null.");
             }
-            var album = await _context.Albums.FindAsync(id);
+            var album = await _context.Albums
+                .Include(a => a.Artist)
+                .Include(a => a.Tracks)
+                .FirstOrDefaultAsync(m => m.AlbumId == id);
             if (album != null)
             {
                 _context.Albums.Remove(album);

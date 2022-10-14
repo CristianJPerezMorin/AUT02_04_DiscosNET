@@ -27,7 +27,7 @@ namespace AUT02_04_DiscosNET.Data
         {
             modelBuilder.Entity<Album>(entity =>
             {
-                entity.Property(e => e.AlbumId).ValueGeneratedNever();
+                //entity.Property(e => e.AlbumId).ValueGeneratedNever();
 
                 entity.HasOne(d => d.Artist)
                     .WithMany(p => p.Albums)
@@ -35,12 +35,12 @@ namespace AUT02_04_DiscosNET.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AlbumArtistId");
             });
-
+/*
             modelBuilder.Entity<Artist>(entity =>
             {
                 entity.Property(e => e.ArtistId).ValueGeneratedNever();
             });
-
+*/
             modelBuilder.Entity<Track>(entity =>
             {
                 entity.Property(e => e.TrackId).ValueGeneratedNever();
