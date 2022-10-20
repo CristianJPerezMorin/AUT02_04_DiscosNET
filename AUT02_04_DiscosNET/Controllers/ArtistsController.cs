@@ -15,8 +15,6 @@ namespace AUT02_04_DiscosNET.Controllers
     public class ArtistsController : Controller
     {
         private readonly ChinookContext _context;
-        public static int page = 0;
-        public const int nElement = 15;
         
         public ArtistsController(ChinookContext context)
         {
@@ -24,31 +22,15 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Artists
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            page = 0;
+            ViewData["CurrentFilter"] = searchString;
             var chinookContext = _context.Artists.Include(a => a.Albums).OrderByDescending(a => a.Name);
-            ViewData["Page"] = page;
-            ViewData["nElement"] = nElement;
-            return View(await chinookContext.ToListAsync());
-        }
-        [HttpPost]
-        public async Task<IActionResult> Index(string move)
-        {
-            if (move == "Atras")
+            if (!String.IsNullOrEmpty(searchString))
             {
-                if (page != 0)
-                {
-                    page--;
-                }
+                chinookContext = chinookContext.Where(a => a.Name.Contains(searchString)).OrderByDescending(a => a.Name);
             }
-            else
-            {
-                page++;
-            }
-            var chinookContext = _context.Artists.Include(a => a.Albums).OrderByDescending(a => a.Name);
-            ViewData["Page"] = page;
-            ViewData["nElement"] = nElement;
+
             return View(await chinookContext.ToListAsync());
         }
         // GET: Artists/Details/5
