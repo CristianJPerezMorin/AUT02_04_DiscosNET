@@ -9,18 +9,6 @@ namespace AUT02_04_DiscosNET.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Artist",
-                columns: table => new
-                {
-                    ArtistId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Artist", x => x.ArtistId);
-                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -61,24 +49,7 @@ namespace AUT02_04_DiscosNET.Migrations
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Album",
-                columns: table => new
-                {
-                    AlbumId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false),
-                    ArtistId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Album", x => x.AlbumId);
-                    table.ForeignKey(
-                        name: "FK_AlbumArtistId",
-                        column: x => x.ArtistId,
-                        principalTable: "Artist",
-                        principalColumn: "ArtistId");
-                });
+            
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -186,35 +157,7 @@ namespace AUT02_04_DiscosNET.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Track",
-                columns: table => new
-                {
-                    TrackId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    AlbumId = table.Column<int>(type: "int", nullable: true),
-                    MediaTypeId = table.Column<int>(type: "int", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: true),
-                    Composer = table.Column<string>(type: "nvarchar(220)", maxLength: 220, nullable: true),
-                    Milliseconds = table.Column<int>(type: "int", nullable: false),
-                    Bytes = table.Column<int>(type: "int", nullable: true),
-                    UnitPrice = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Track", x => x.TrackId);
-                    table.ForeignKey(
-                        name: "FK_TrackAlbumId",
-                        column: x => x.AlbumId,
-                        principalTable: "Album",
-                        principalColumn: "AlbumId");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IFK_AlbumArtistId",
-                table: "Album",
-                column: "ArtistId");
-
+           
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -254,20 +197,6 @@ namespace AUT02_04_DiscosNET.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-            migrationBuilder.CreateIndex(
-                name: "IFK_TrackAlbumId",
-                table: "Track",
-                column: "AlbumId");
-
-            migrationBuilder.CreateIndex(
-                name: "IFK_TrackGenreId",
-                table: "Track",
-                column: "GenreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IFK_TrackMediaTypeId",
-                table: "Track",
-                column: "MediaTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -288,19 +217,11 @@ namespace AUT02_04_DiscosNET.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Track");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.DropTable(
-                name: "Album");
-
-            migrationBuilder.DropTable(
-                name: "Artist");
         }
     }
 }
