@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using AUT02_04_DiscosNET.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AUT02_04_DiscosNET.Data
 {
-    public partial class ChinookContext : DbContext
+    public partial class ChinookContext : IdentityDbContext
     {
         public ChinookContext()
         {
@@ -25,6 +26,8 @@ namespace AUT02_04_DiscosNET.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Album>(entity =>
             {
                 //entity.Property(e => e.AlbumId).ValueGeneratedNever();
@@ -51,9 +54,8 @@ namespace AUT02_04_DiscosNET.Data
                     .HasConstraintName("FK_TrackAlbumId");
             });
 
-            OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

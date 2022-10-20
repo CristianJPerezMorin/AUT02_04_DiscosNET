@@ -1,4 +1,5 @@
 using AUT02_04_DiscosNET.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ChinookContext>( options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ChinookContext") ?? throw new InvalidOperationException("Connection string 'ChinookContext' not found"))
     );
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ChinookContext>();
+builder.Services.AddControllersWithViews();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -25,10 +31,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.Run();
