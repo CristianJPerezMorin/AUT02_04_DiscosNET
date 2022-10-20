@@ -22,16 +22,25 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Artists
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
         {
             ViewData["CurrentFilter"] = searchString;
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
             var chinookContext = _context.Artists.Include(a => a.Albums).OrderByDescending(a => a.Name);
             if (!String.IsNullOrEmpty(searchString))
             {
                 chinookContext = chinookContext.Where(a => a.Name.Contains(searchString)).OrderByDescending(a => a.Name);
             }
 
-            return View(await chinookContext.ToListAsync());
+            int pageSize = 15;
+            return View(await PaginatedList<Artist>.CreateAsync(chinookContext.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
         // GET: Artists/Details/5
         public async Task<IActionResult> Details(int? id)

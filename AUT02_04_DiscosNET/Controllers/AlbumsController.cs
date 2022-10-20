@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AUT02_04_DiscosNET.Data;
 using AUT02_04_DiscosNET.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
 
 namespace AUT02_04_DiscosNET.Controllers
 {
@@ -22,16 +23,25 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Albums
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
         {
             ViewData["CurrentFilter"] = searchString;
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
             var chinookContext = _context.Albums.Include(a => a.Artist).OrderByDescending(a => a.Title);
             if (!String.IsNullOrEmpty(searchString))
             {
                 chinookContext = chinookContext.Where(a => a.Title.Contains(searchString)).OrderByDescending(a => a.Title);
             }
-            
-            return View(await chinookContext.ToListAsync());
+
+            int pageSize = 15;
+            return View(await PaginatedList<Album>.CreateAsync(chinookContext.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
         // GET: Albums/Details/5
         public async Task<IActionResult> Details(int? id)
