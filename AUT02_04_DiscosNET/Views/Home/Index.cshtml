@@ -1,23 +1,34 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 <div class="text-center">
-    <h1 class="display-4">Musica</h1>
-    <div class="card" style="width: 18rem;">
-      <img src="/img/album.jpg" class="card-img-top" alt="...">
-      <div class="card-body">
-            <h5 class="card-title">Álbumes</h5>
-            <p class="card-text">Libro o cuaderno con las hojas en blanco para dibujar, escribir poesía, etc., o coleccionar sellos, autógrafos, fotografías y cosas semejantes.</p>
-            <a asp-controller="Albums" asp-action="Index" class="btn btn-outline-dark">Álbumes</a>
-       </div>
-    </div>
-    <div class="card" style="width: 18rem;">
-        <img src="/img/artista.jpg" class="card-img-top" alt="...">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <h1 class="display-4">Discografía</h1>
+        <div class="card" style="width: 18rem;">
+            <img src="/img/album.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Álbumes</h5>
+                <p class="card-text">Libro o cuaderno con las hojas en blanco para dibujar, escribir poesía, etc., o coleccionar sellos, autógrafos, fotografías y cosas semejantes.</p>
+                <a asp-controller="Albums" asp-action="Index" class="btn btn-outline-dark">Álbumes</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img src="/img/artista.jpg" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Artistas</h5>
             <p class="card-text">Persona que practica alguna de las bellas artes (música, pintura, escultura, arquitectura, danza, poesía), en especial si se dedica a ello profesionalmente.</p>
             <a asp-controller="Artists" asp-action="Index" class="btn btn-outline-dark">Artistas</a>
         </div>
     </div>
+    }
+    else
+    {
+        <h1>Discografía</h1>
+        <h3>Descubre la mejor musica, Registrate ya.</h3>
+    }
 </div>

@@ -5,10 +5,12 @@
 }
 
 <h1>Listado de Artistas</h1>
-
-<p>
-    <a class="btn btn-outline-primary" asp-action="Create">Crear Artista</a>
-</p>
+@if ((User.IsInRole("Manager")) || (User.IsInRole("Admin")))
+{
+    <p>
+        <a class="btn btn-outline-primary" asp-action="Create">Crear Artista</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -26,10 +28,13 @@
                     @Html.DisplayFor(model => model.ElementAt(cont).Name)
                 </td>
                 <td>
-                    <a class="btn btn-outline-warning" href="Artists/Edit/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Editar</a>
+                    @if ((User.IsInRole("Manager")) || (User.IsInRole("Admin")))
+                    {
+                        <a class="btn btn-outline-warning" href="Artists/Edit/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Editar</a>
+                        <a class="btn btn-outline-danger" href="Artists/Delete/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Eliminar</a>
+                    }
                     <a class="btn btn-outline-primary" href="Artists/Details/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Detalles</a>
                     <a class="btn btn-outline-secondary" href="Artists/ShowAlbums/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Álbumes</a>
-                    <a class="btn btn-outline-danger" href="Artists/Delete/@Html.DisplayFor(model => model.ElementAt(cont).ArtistId)">Eliminar</a>
                 </td>
             </tr>
         }
