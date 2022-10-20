@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AUT02_04_DiscosNET.Data;
 using AUT02_04_DiscosNET.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AUT02_04_DiscosNET.Controllers
 {
-    
+    [Authorize]
     public class AlbumsController : Controller
     {
         private readonly ChinookContext _context;
@@ -23,7 +24,7 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Albums
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             page = 0;
             var chinookContext = _context.Albums.Include(a => a.Artist).OrderByDescending(a => a.Title);
@@ -71,6 +72,7 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Albums/Create
+        [Authorize(Roles = ("Admin,Manager"))]
         public IActionResult Create()
         {
             ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Name");
@@ -81,6 +83,7 @@ namespace AUT02_04_DiscosNET.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = ("Admin,Manager"))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AlbumId,Title,ArtistId")] Album album)
         {
@@ -95,6 +98,7 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Albums/Edit/5
+        [Authorize(Roles = ("Admin,Manager"))]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Albums == null)
@@ -115,6 +119,7 @@ namespace AUT02_04_DiscosNET.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = ("Admin,Manager"))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AlbumId,Title,ArtistId")] Album album)
         {
@@ -148,6 +153,7 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Albums/Delete/5
+        [Authorize(Roles = ("Admin,Manager"))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Albums == null)
@@ -169,6 +175,7 @@ namespace AUT02_04_DiscosNET.Controllers
 
         // POST: Albums/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = ("Admin,Manager"))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

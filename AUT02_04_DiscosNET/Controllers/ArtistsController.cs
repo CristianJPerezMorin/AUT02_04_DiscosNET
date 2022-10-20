@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AUT02_04_DiscosNET.Data;
 using AUT02_04_DiscosNET.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AUT02_04_DiscosNET.Controllers
 {
+    [Authorize]
     public class ArtistsController : Controller
     {
         private readonly ChinookContext _context;
@@ -69,6 +71,7 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Artists/Create
+        [Authorize(Roles = ("Admin,Manager"))]
         public IActionResult Create()
         {
             return View();
@@ -78,6 +81,7 @@ namespace AUT02_04_DiscosNET.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = ("Admin,Manager"))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ArtistId,Name")] Artist artist)
         {
@@ -91,6 +95,7 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Artists/Edit/5
+        [Authorize(Roles = ("Admin,Manager"))]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Artists == null)
@@ -110,6 +115,7 @@ namespace AUT02_04_DiscosNET.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = ("Admin,Manager"))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ArtistId,Name")] Artist artist)
         {
@@ -142,6 +148,7 @@ namespace AUT02_04_DiscosNET.Controllers
         }
 
         // GET: Artists/Delete/5
+        [Authorize(Roles = ("Admin,Manager"))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Artists == null)
@@ -162,6 +169,7 @@ namespace AUT02_04_DiscosNET.Controllers
 
         // POST: Artists/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = ("Admin,Manager"))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
