@@ -8,7 +8,7 @@ builder.Services.AddDbContext<ChinookContext>( options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ChinookContext") ?? throw new InvalidOperationException("Connection string 'ChinookContext' not found"))
     );
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ChinookContext>();
 builder.Services.AddControllersWithViews();
 

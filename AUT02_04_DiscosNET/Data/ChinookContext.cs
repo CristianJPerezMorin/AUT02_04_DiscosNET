@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using AUT02_04_DiscosNET.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace AUT02_04_DiscosNET.Data
 {
@@ -54,6 +55,66 @@ namespace AUT02_04_DiscosNET.Data
                     .HasConstraintName("FK_TrackAlbumId");
             });
 
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Name = "Default",
+                    NormalizedName = "DEFAULT"
+                },
+                new IdentityRole
+                {
+                    Name = "Manager",
+                    NormalizedName = "MANAGER"
+                },
+                new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                }
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
+
+            List<IdentityUser> users = new List<IdentityUser>
+            {
+                new IdentityUser
+                {
+                    UserName = "Manager@disquera.com",
+                    Email = "Manager@disquera.com",
+                    NormalizedEmail = "MANAGER@DISQUERA.COM",
+                    NormalizedUserName = "MANAGER@DISQUERA.COM",
+                    EmailConfirmed = true
+                },
+                new IdentityUser
+                {
+                    UserName = "Admin@disquera.com",
+                    Email = "Admin@disquera.com",
+                    NormalizedEmail = "ADMIN@DISQUERA.COM",
+                    NormalizedUserName = "ADMIN@DISQUERA.COM",
+                    EmailConfirmed = true
+                }
+            };
+
+            modelBuilder.Entity<IdentityUser>().HasData(users);
+            var passwordHasher = new PasswordHasher<IdentityUser>();
+            users[0].PasswordHash = passwordHasher.HashPassword(users[0], "managerpass");
+            users[1].PasswordHash = passwordHasher.HashPassword(users[1], "adminpass");
+
+            List<IdentityUserRole<string>> userRoles = new List<IdentityUserRole<string>>
+            {
+                new IdentityUserRole<string>
+                {
+                    RoleId = roles.Find(r => r.Name == "Admin").Id,
+                    UserId = users[1].Id
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = roles.Find(r => r.Name == "Manager").Id,
+                    UserId = users[0].Id
+                }
+            };
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(userRoles);
         }
 
         //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
