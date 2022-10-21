@@ -39,7 +39,10 @@ namespace AUT02_04_DiscosNET.Controllers
             {
                 chinookContext = chinookContext.Where(a => a.Title.Contains(searchString)).OrderByDescending(a => a.Title);
             }
-
+            if(pageNumber < 1) 
+            {
+                pageNumber = 1;
+            }
             int pageSize = 15;
             return View(await PaginatedList<Album>.CreateAsync(chinookContext.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
