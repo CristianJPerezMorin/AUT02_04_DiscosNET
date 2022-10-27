@@ -37,7 +37,7 @@ namespace AUT02_04_DiscosNET.Controllers
             var chinookContext = _context.Albums.Include(a => a.Artist).OrderByDescending(a => a.Title);
             if (!String.IsNullOrEmpty(searchString))
             {
-                chinookContext = chinookContext.Where(a => a.Title.Contains(searchString)).OrderByDescending(a => a.Title);
+                chinookContext = chinookContext.Where(a => a.Title.Contains(searchString) || a.Artist.Name.Contains(searchString)).OrderByDescending(a => a.Title);
             }
             if(pageNumber < 1) 
             {
